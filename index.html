@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizador de Grafos y Árboles</title>
+    <!-- Bootstrap para diseño moderno -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tu CSS personalizado -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='diseño.css') }}">
+</head>
+<body class="bg-light text-dark">
+
+    <!-- Encabezado -->
+    <header class="py-5 text-center bg-primary text-white shadow">
+        <h1 class="fw-bold display-4">Visualizador de Grafos y Árboles</h1>
+        <p class="lead">Genera, analiza y visualiza estructuras de datos de manera interactiva</p>
+    </header>
+
+    <main class="container py-5">
+        <div class="row g-4">
+            <!-- Sección de Grafos -->
+            <div class="col-md-6">
+                <div class="card shadow-lg border-0 h-100">
+                    <div class="card-body">
+                        <h2 class="card-title text-center text-primary fw-bold">Generar Grafo</h2>
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label class="form-label">Aristas:</label>
+                                <input type="text" class="form-control" name="edges" placeholder="Ejemplo: A-B, B-C, A-C">
+                                <small class="text-muted">👉 Escribe las conexiones entre nodos separadas por comas.</small>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Nodo inicial BFS:</label>
+                                <input type="text" class="form-control" name="start" placeholder="Ejemplo: A">
+                                <small class="text-muted">👉 El nodo desde donde empieza el recorrido.</small>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Ruta (origen,destino):</label>
+                                <input type="text" class="form-control" name="path" placeholder="Ejemplo: A,C">
+                                <small class="text-muted">👉 Encuentra la mejor ruta entre dos nodos.</small>
+                            </div>
+                            <button type="submit" name="action" value="grafo" class="btn btn-primary w-100 fw-bold">Generar Grafo</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Árboles -->
+            <div class="col-md-6">
+                <div class="card shadow-lg border-0 h-100">
+                    <div class="card-body">
+                        <h2 class="card-title text-center text-success fw-bold">Generar Árbol Binario</h2>
+                        <form method="POST">
+                            <div class="mb-3">
+                                <label class="form-label">Valores:</label>
+                                <input type="text" class="form-control" name="values" placeholder="Ejemplo: 50,30,70,20,40,60,80">
+                                <small class="text-muted">👉 Escribe los valores separados por comas para construir el árbol.</small>
+                            </div>
+                            <button type="submit" name="action" value="arbol" class="btn btn-success w-100 fw-bold">Generar Árbol</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resultados -->
+        {% if graph %}
+        <section class="mt-5">
+            <div class="card shadow-lg border-0">
+                <div class="card-body">
+                    <h2 class="text-center text-info fw-bold">Resultado</h2>
+                    <div class="text-center">
+                        <img src="data:image/png;base64,{{graph}}" class="img-fluid rounded border border-dark shadow" alt="Visualización">
+                    </div>
+                    <div class="mt-4">
+                        <h4 class="fw-bold">Información detallada:</h4>
+                        <p><b>Cantidad de nodos:</b> {{cantidad}}</p>
+
+                        {% if matriz %}
+                            <p><b>Matriz de adyacencia:</b></p>
+                            <pre class="bg-light text-dark p-2 border rounded">{{matriz}}</pre>
+                        {% endif %}
+
+                        {% if recorrido %}
+                            <p><b>Recorrido BFS:</b> {{recorrido}}</p>
+                        {% endif %}
+
+                        {% if ruta %}
+                            <p><b>Mejor ruta:</b> {{ruta}}</p>
+                        {% endif %}
+
+                        {% if recorridos %}
+                            <p><b>Inorden:</b> {{recorridos['inorden']}}</p>
+                            <p><b>Preorden:</b> {{recorridos['preorden']}}</p>
+                            <p><b>Postorden:</b> {{recorridos['postorden']}}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+
+
+
+
